@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const couch = nano('http://admin:admin@34.100.238.8:5984');
+const couch = nano(process.env.COUCH_URL || 'http://admin:admin@localhost:5984');
 
 app.get('/', (req, res) => {
   res.send({ message: 'Hello from Cloud Function!' });
@@ -26,4 +26,8 @@ app.get('/databases', async (req, res) => {
   }
 });
 
-exports.myApi = app;
+// 🟢 Start the server if this is running in a container (e.g. Gen 2)
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+});
