@@ -6,8 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Use COUCH_URL from env
-const couch = nano(process.env.COUCH_URL);
+// Optional: use environment variable for CouchDB URL
+const couch = nano(process.env.COUCH_URL || 'http://admin:admin@localhost:5984');
 
 app.get('/', (req, res) => {
   res.send({ message: 'Hello from Cloud Function!' });
@@ -27,10 +27,11 @@ app.get('/databases', async (req, res) => {
   }
 });
 
-exports.myApi = app;
-
-// ✅ REQUIRED for Cloud Run / Cloud Functions Gen 2
+// 👇 This is required to work with Cloud Functions Gen 2!
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`🚀 Server listening on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
+
+// 👇 This is needed for Cloud Function export
+exports.myApi = app;
