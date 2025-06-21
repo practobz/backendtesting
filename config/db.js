@@ -1,10 +1,6 @@
 import nanoPkg from 'nano';
 
-const username = process.env.COUCHDB_USER || "admin";
-const password = encodeURIComponent(process.env.COUCHDB_PASSWORD || "admin");
-const host = process.env.COUCHDB_HOST || "34.47.166.248:5984";
-
-const nano = nanoPkg(`http://${username}:${password}@${host}`);
+const couchURL = process.env.COUCH_URL || 'http://admin:admin@127.0.0.1:5984';
 
 
 const DB_NAMES = {
