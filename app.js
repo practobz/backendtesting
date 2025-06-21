@@ -7,10 +7,12 @@ import creatorRoutes from './routes/creatorRoutes.js';
 import { sendJSON } from './utils/response.js';
 
 // Setup DB
-const username = 'admin';
-const password = 'admin';
-const nano = nanoPkg(`http://${username}:${password}@127.0.0.1:5984`);
-const usersDb = nano.db.use('users');
+const username = process.env.COUCHDB_USER || "admin";
+const password = encodeURIComponent(process.env.COUCHDB_PASSWORD || "admin");
+const host = process.env.COUCHDB_HOST || "34.47.166.248:5984";
+
+const nano = nanoPkg(`http://${username}:${password}@${host}`);
+
 
 // Only now use usersDb
 // const authMiddleware = new AuthMiddleware(usersDb); // Uncomment only if you're using it later

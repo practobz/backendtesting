@@ -68,7 +68,7 @@ export async function login(req, res) {
   // Find user by email
   const found = await usersDb.find({ selector: { email }, limit: 1 });
   if (found.docs.length === 0) {
-    return sendJSON(res, 401, { error: 'Invalid credentials' });
+    return sendJSON(res, 401, { error: 'Invalid credentials or sign up to create account' });
   }
 
   const user = found.docs[0];
@@ -76,7 +76,7 @@ export async function login(req, res) {
     return sendJSON(res, 403, { error: 'Account is inactive' });
   }
   if (user.password !== password) {
-    return sendJSON(res, 401, { error: 'Invalid credentials' });
+    return sendJSON(res, 401, { error: 'Invalid credentials or sign up to create account' });
   }
 
   return sendJSON(res, 200, {
