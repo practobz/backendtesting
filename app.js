@@ -1,30 +1,32 @@
-const http = require('http');
-const url = require('url');
-const nanoPkg = require('nano');
-const adminRoutes = require('./routes/adminRoutes.js');
-const customerRoutes = require('./routes/customerRoutes.js');
-const creatorRoutes = require('./routes/creatorRoutes.js');
-const { sendJSON } = require('./utils/response.js');
+import http from 'http';
+import url from 'url';
+import nano from 'nano';
+import adminRoutes from './routes/adminRoutes.js';
+import customerRoutes from './routes/customerRoutes.js';
+import creatorRoutes from './routes/creatorRoutes.js';
+import { sendJSON } from './utils/response.js';
 
-// Setup DB
 const username = process.env.COUCHDB_USER || "admin";
 const password = encodeURIComponent(process.env.COUCHDB_PASSWORD || "admin");
 const host = process.env.COUCHDB_HOST || "34.47.166.248:5984";
-
-const nano = nanoPkg(`http://${username}:${password}@${host}`);
-
-const usersDb = nano.db.use('users');
-// Only now use usersDb
-// const authMiddleware = new AuthMiddleware(usersDb); // Uncomment only if you're using it later
+const nanoInstance = nano(`http://${username}:${password}@${host}`);
+const usersDb = nanoInstance.db.use('users');
 
 const server = http.createServer(async (req, res) => {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   if (req.method === 'OPTIONS') {
-    return sendJSON(res, 200, { ok: true });
+    res.writeHead(204);
+    res.end();
+    return;
   }
 
   req.databases = { users: usersDb };
 
-  // Ensure customerRoutes is checked BEFORE any catch-all or fallback logic
+  // Route handling
   const handled =
     await customerRoutes(req, res) ||
     await adminRoutes(req, res) ||
@@ -35,7 +37,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-nano.db.get('users').catch(() => nano.db.create('users')).then(() => {
+nanoInstance.db.get('users').catch(() => nanoInstance.db.create('users')).then(() => {
   server.listen(3001, () => {
     console.log(`🚀 Server running at http://localhost:3001`);
   });
