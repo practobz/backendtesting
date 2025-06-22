@@ -3,16 +3,19 @@ import { adminSignup, login } from '../controllers/adminController.js';
 
 export default async function adminRoutes(req, res) {
   const { pathname } = parse(req.url, true);
-  console.log(`➡️ Method: ${req.method}, Pathname: ${pathname}`);
+  const cleanPath = pathname.replace(/\/+$/, ''); // remove trailing slashes
 
-  if (req.method === 'POST' && pathname === '/signup/admin') {
-    console.log('✅ Matched admin signup');
+  console.log(`🧭 adminRoutes: ${req.method} ${cleanPath}`);
+
+  if (req.method === 'POST' && cleanPath === '/signup/admin') {
+    console.log('✅ Matched /signup/admin');
     return await adminSignup(req, res);
   }
 
-  if (req.method === 'POST' && pathname === '/login') {
+  if (req.method === 'POST' && cleanPath === '/login') {
+    console.log('✅ Matched /login');
     return await login(req, res);
   }
 
-  return false;
+  return false; // not handled by this route
 }
