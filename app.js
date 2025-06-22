@@ -13,7 +13,7 @@ const host = process.env.COUCHDB_HOST || "34.47.166.248:5984";
 
 const nano = nanoPkg(`http://${username}:${password}@${host}`);
 
-
+const usersDb = nano.db.use('users');
 // Only now use usersDb
 // const authMiddleware = new AuthMiddleware(usersDb); // Uncomment only if you're using it later
 

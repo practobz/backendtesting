@@ -1,12 +1,12 @@
 import nanoPkg from 'nano';
 
 const couchURL = process.env.COUCH_URL || 'http://admin:admin@127.0.0.1:5984';
-
+const nano = nanoPkg(couchURL); // ✅ Initialize nano here
 
 const DB_NAMES = {
   users: 'users',
   content: 'content',
-  calendars: 'calendars'
+  calendars: 'calendars',
 };
 
 const databases = {};
