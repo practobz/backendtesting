@@ -3,7 +3,7 @@ import url from 'url';
 import { parse } from 'querystring';
 import nano from 'nano';
 
-const COUCH_URL = process.env.COUCH_URL || 'http://admin:admin@127.0.0.1:5984';
+const COUCH_URL = process.env.COUCH_URL;
 const couch = nano(COUCH_URL);
 
 const server = http.createServer(async (req, res) => {

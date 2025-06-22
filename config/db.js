@@ -1,6 +1,6 @@
 import nano from 'nano';
 
-const couchURL = process.env.COUCH_URL || 'http://admin:admin@127.0.0.1:5984';
+const couchURL = process.env.COUCH_URL;
 const nanoInstance = nano(couchURL);
 
 const DB_NAMES = {
