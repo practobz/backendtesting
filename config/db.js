@@ -1,4 +1,4 @@
-import nanoPkg from 'nano';
+const nanoPkg = require('nano');
 
 const couchURL = process.env.COUCH_URL || 'http://admin:admin@127.0.0.1:5984';
 const nano = nanoPkg(couchURL); // ✅ Initialize nano here
@@ -11,7 +11,7 @@ const DB_NAMES = {
 
 const databases = {};
 
-export async function initializeDatabases() {
+async function initializeDatabases() {
   const dbList = await nano.db.list();
 
   for (const [key, dbName] of Object.entries(DB_NAMES)) {
@@ -23,3 +23,5 @@ export async function initializeDatabases() {
 
   return databases;
 }
+
+module.exports = { initializeDatabases };

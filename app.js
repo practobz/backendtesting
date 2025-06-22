@@ -1,10 +1,10 @@
-import http from 'http';
-import url from 'url';
-import nanoPkg from 'nano';
-import adminRoutes from './routes/adminRoutes.js';
-import customerRoutes from './routes/customerRoutes.js';
-import creatorRoutes from './routes/creatorRoutes.js';
-import { sendJSON } from './utils/response.js';
+const http = require('http');
+const url = require('url');
+const nanoPkg = require('nano');
+const adminRoutes = require('./routes/adminRoutes.js');
+const customerRoutes = require('./routes/customerRoutes.js');
+const creatorRoutes = require('./routes/creatorRoutes.js');
+const { sendJSON } = require('./utils/response.js');
 
 // Setup DB
 const username = process.env.COUCHDB_USER || "admin";
