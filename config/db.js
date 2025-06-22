@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import nano from 'nano';
 
 const couchURL = process.env.COUCH_URL;

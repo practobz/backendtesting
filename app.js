@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import http from 'http';
 import url from 'url';
 import nano from 'nano';
